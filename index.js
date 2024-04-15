@@ -9,9 +9,24 @@ app.listen(
     () => console.log(`It's alive on http://localhost:${PORT}`)
 )
 
+const extractToken = (req, res, next) => {
+    const authHeader = req.headers['accessToken'];
+    if (authHeader) {
+            req.token = authHeader;
+    } else {
+        // No Authorization header present
+        req.token = null;
+    }
+    next();
+}
+
 app.get('/ping', (req, res) => {
 
-    res.status(200).send({ message:'Ping!'})
+    if(!req.token){
+        res.status(400).send({message:'Access Token Missing!'})
+    } else {
+        res.status(200).send({ message:'Ping!'})
+    }
 
 })
 
