@@ -1,44 +1,35 @@
 const express = require('express');
 const app = express(); // add express module
 const PORT = 8080;
-
-app.use(express.json())
-
+const allowedTokens = ['allowedtoken1','allowedtoken2'];
 app.listen(
     PORT,
     () => console.log(`It's alive on http://localhost:${PORT}`)
 )
 
-const extractToken = (req, res, next) => {
-    const authHeader = req.headers['accessToken'];
-    if (authHeader) {
-            req.token = authHeader;
-    } else {
-        // No Authorization header present
-        req.token = null;
+
+const checkAccessToken = (req, res, next) => {
+    const accessToken = req.headers['accesstoken'];
+    if (!accessToken) {
+        return res.status(401).json({ error: 'Access token is missing' });
+    } else if (!allowedTokens.includes(accessToken)){
+        return res.status(401).json({ error: 'Invalid Access token!' });
     }
     next();
 }
+app.use(express.json())
+app.use(checkAccessToken)
 
-app.get('/ping', (req, res) => {
 
-    if(!req.token){
-        res.status(400).send({message:'Access Token Missing!'})
-    } else {
+app.get('/ping', checkAccessToken, (req, res) => {
         res.status(200).send({ message:'Ping!'})
-    }
-
+        console.log(req.headers)
+        console.log(req.header['accesstoken'])
 })
 
-app.post('/alive',(req, res) => {
-    const providedToken = req.body.providedToken;
-    if(!providedToken){
-        res.status(418).send({ message: 'Access token required'})
-    } else if(providedToken !== 'testToken'){
-        res.status(419).send({ message: 'Access denied. Wrong token!'})
-    } else {
+app.post('/alive',checkAccessToken,(req, res) => {
    res.status(200).send({
         alive:'yes',
-        your_token: providedToken
-    })}
+        your_token: req.headers['accesstoken']
+    })
 });
