@@ -8,13 +8,10 @@ const { where } = require('sequelize');
 const allowedTokens = ['allowedtoken1','allowedtoken2'];
 
 const checkAccessToken = (req, res, next) => {
-    const accessToken = req.headers['accesstoken'];
-    if (!accessToken) {
-        return res.status(401).json({ error: 'Access token is missing' });
-    } else if (!allowedTokens.includes(accessToken)){
-        return res.status(401).json({ error: 'Invalid Access token!' });
-    }
-next();
+    const accessToken = req.headers['accesstoken']
+    if (!accessToken || !allowedTokens.includes(accessToken)) {
+        return res.status(401).json({ error: 'Access token is missing or invalid' })}
+next()
 }
 
 
