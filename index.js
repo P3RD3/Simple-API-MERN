@@ -2,30 +2,14 @@ const express = require('express');
 const app = express(); // add express module
 const PORT = 8080;
 const allowedTokens = ['allowedtoken1','allowedtoken2'];
-const { Sequelize, DataTypes } = require('sequelize');
+const sequelize = require('./database')
+const ShoppingCart = require('./ShoppingCart')
+
+sequelize.sync().then(() => console.log('db is ready'))
 
 app.listen(
     PORT,
-    () => console.log(`It's alive on http://localhost:${PORT}`)
-)
-
-const sequelize = new Sequelize({
-    dialect: 'sqlite',
-    storage: 'example_database.db'
-})
-
-const ShoppingCart = sequelize.define('ShoppingCart', {
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    count: {
-      type: DataTypes.INTEGER,
-      defaultValue: 1,
-    },
-  })
-
-  let itemList = []
+    () => console.log(`It's alive on http://localhost:${PORT}`))
 
 
 const checkAccessToken = (req, res, next) => {
@@ -40,16 +24,6 @@ const checkAccessToken = (req, res, next) => {
 app.use(express.json())
 app.use(checkAccessToken)
 
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log('Connection to the database has been established successfully.');
-    return ShoppingCart.findAll();
-  })
-  .catch(err => {
-    console.error('Unable to connect to the database:', err);
-  });
-
 app.get('/ping', checkAccessToken, (req, res) => {
         res.status(200).send({ message:'Ping!'})
         console.log(req.headers)
@@ -63,23 +37,6 @@ app.post('/alive',checkAccessToken,(req, res) => {
     })
 })
 
-app.post('/addItem', async (req, res) => {
-    try {
-      const { name } = req.body;
-  
-      // Check if the item already exists in the list
-      const existingItem = itemList.find(item => item.name === name);
-  
-      if (existingItem) {
-        existingItem.count += 1;
-      } else {
-        itemList.push({ name, count: 1 });
-        await ShoppingCart.create({ name });
-      }
-  
-      res.status(200).json({ message: 'Item added to shopping cart successfully' });
-    } catch (error) {
-      console.error('Error adding item:', error);
-      res.status(500).json({ error: 'Internal server error' });
-    }
-  });
+app.post('/addItem',(req,res)=> {
+    ShoppingCart.create(req.body).then(()=>res.status(200).send({message:'Item added!'}))
+})
