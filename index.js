@@ -11,6 +11,7 @@ app.listen(
     PORT,
     () => console.log(`It's alive on http://localhost:${PORT}`))
 
+app.use(express.json())
 
 const checkAccessToken = (req, res, next) => {
     const accessToken = req.headers['accesstoken'];
@@ -21,7 +22,7 @@ const checkAccessToken = (req, res, next) => {
     }
     next();
 }
-app.use(express.json())
+
 app.use(checkAccessToken)
 
 app.get('/ping', checkAccessToken, (req, res) => {
@@ -38,5 +39,5 @@ app.post('/alive',checkAccessToken,(req, res) => {
 })
 
 app.post('/addItem',(req,res)=> {
-    ShoppingCart.create(req.body).then(()=>res.status(200).send({message:'Item added!'}))
+    ShoppingCart.create(req.body).then(()=>res.send({message:'Item added!'}))
 })
