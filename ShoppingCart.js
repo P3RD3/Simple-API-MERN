@@ -4,9 +4,8 @@ const sequelize = require('./database')
 class ShoppingCart extends Model {}
 
 ShoppingCart.init({
-    itemId: {
+    id: {
         type: DataTypes.INTEGER,
-        autoIncrement: true,
         primaryKey: true
     },
     itemName: {

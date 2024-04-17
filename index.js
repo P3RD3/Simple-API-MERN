@@ -2,7 +2,8 @@ const express = require('express');
 const app = express(); // add express module
 const PORT = 8080;
 const sequelize = require('./database')
-const ShoppingCart = require('./ShoppingCart')
+const ShoppingCart = require('./ShoppingCart');
+const { where } = require('sequelize');
 
 const allowedTokens = ['allowedtoken1','allowedtoken2'];
 
@@ -42,3 +43,37 @@ app.post('/alive',(req, res) => {
 app.post('/addItem',(req,res)=> {
     ShoppingCart.create(req.body).then(()=>res.send({message:'Item added!'}))
 })
+
+app.get('/getCart',async (req, res)=>{
+
+    const cart = await ShoppingCart.findAll();
+    res.status(200).send(cart)
+})
+
+app.get('/getCart/:id', async (req, res) => {
+
+const requestId = req.params.id
+const cartItem = await ShoppingCart.findOne({ where: { id: requestId } })
+res.status(200).send(cartItem)
+})
+
+
+app.put('/updateItem/:id', async (req, res) => {
+
+    const requestId = req.params.id
+    const cartItem = await ShoppingCart.findOne({ where: { id: requestId } })
+    cartItem.itemName = req.body.name;
+    await cartItem.save()
+    res.status(200).send('Item name updated')
+    })
+
+    app.delete('/clearCart', async (req, res) => {
+        await ShoppingCart.destroy({ where:{}, truncate: true})
+        res.status(200).send('Shopping cart cleared')
+        })
+
+    app.delete('/clearItem/:id', async (req, res) => {
+        const requestId = req.params.id
+        await ShoppingCart.destroy({where: { id: requestId} })
+        res.status(200).send(' Item cleared')
+    })
