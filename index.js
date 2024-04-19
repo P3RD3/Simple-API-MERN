@@ -4,6 +4,7 @@ const PORT = 8080;
 const sequelize = require('./database')
 const Users = require('./Users');
 const { where } = require('sequelize');
+module.exports = app 
 
 const allowedTokens = ['allowedtoken1','allowedtoken2'];
 
