@@ -2,7 +2,7 @@ const express = require('express');
 const app = express(); // add express module
 const PORT = 8080;
 const sequelize = require('./database')
-const ShoppingCart = require('./ShoppingCart');
+const Users = require('./Users');
 const { where } = require('sequelize');
 
 const allowedTokens = ['allowedtoken1','allowedtoken2'];
@@ -37,40 +37,43 @@ app.post('/alive',(req, res) => {
     })
 })
 
-app.post('/addItem',(req,res)=> {
-    ShoppingCart.create(req.body).then(()=>res.send({message:'Item added!'}))
+app.post('/addUser',(req,res)=> {
+    Users.create(req.body).then(()=>res.send({message:'User added!'}))
 })
 
-app.get('/getCart',async (req, res)=>{
+app.get('/users',async (req, res)=>{
 
-    const cart = await ShoppingCart.findAll();
-    res.status(200).send(cart)
+    const users = await Users.findAll();
+    res.status(200).send(users)
 })
 
-app.get('/getCart/:id', async (req, res) => {
+app.get('/users/:id', async (req, res) => {
 
 const requestId = req.params.id
-const cartItem = await ShoppingCart.findOne({ where: { id: requestId } })
-res.status(200).send(cartItem)
+const user = await Users.findOne({ where: { id: requestId } })
+if(user===null){
+    res.status(200).send({message: "No user with this ID"})}
+else {
+    res.status(200).send(user)}
 })
 
 
-app.put('/updateItem/:id', async (req, res) => {
+app.put('/updateUsername/:id', async (req, res) => {
 
     const requestId = req.params.id
-    const cartItem = await ShoppingCart.findOne({ where: { id: requestId } })
-    cartItem.itemName = req.body.name;
-    await cartItem.save()
-    res.status(200).send('Item name updated')
+    const user = await Users.findOne({ where: { id: requestId } })
+    user.username = req.body.name;
+    await user.save()
+    res.status(200).send('User name updated')
     })
 
-    app.delete('/clearCart', async (req, res) => {
-        await ShoppingCart.destroy({ where:{}, truncate: true})
-        res.status(200).send('Shopping cart cleared')
+    app.delete('/clearUsers', async (req, res) => {
+        await Users.destroy({ where:{}, truncate: true})
+        res.status(200).send('Users cleared')
         })
 
-    app.delete('/clearItem/:id', async (req, res) => {
+    app.delete('/clearUsers/:id', async (req, res) => {
         const requestId = req.params.id
-        await ShoppingCart.destroy({where: { id: requestId} })
-        res.status(200).send(' Item cleared')
+        await Users.destroy({where: { id: requestId} })
+        res.status(200).send('User cleared')
     })

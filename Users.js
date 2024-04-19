@@ -1,24 +1,24 @@
 const { Model, DataTypes} = require('sequelize')
 const sequelize = require('./database')
 
-class ShoppingCart extends Model {}
+class Users extends Model {}
 
-ShoppingCart.init({
+Users.init({
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true
     },
-    itemName: {
+    username: {
         type: DataTypes.STRING
     },
-    itemCount: {
-        type: DataTypes.INTEGER
+    password: {
+        type: DataTypes.STRING
     }
 }, 
     {
         sequelize,
-        modelName: 'shoppingCart'
+        modelName: 'Users'
     },
 )
 
-module.exports = ShoppingCart;
+module.exports = Users;
