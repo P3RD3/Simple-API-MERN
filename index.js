@@ -67,6 +67,15 @@ app.put('/updateUsername/:id', async (req, res) => {
     res.status(200).send('User name updated')
     })
 
+app.put('/updatePassword/:id', async (req, res) => {
+
+        const requestId = req.params.id
+        const user = await Users.findOne({ where: { id: requestId } })
+        user.password = req.body.password;
+        await user.save()
+        res.status(200).send('User password updated')
+    })
+
     app.delete('/clearUsers', async (req, res) => {
         await Users.destroy({ where:{}, truncate: true})
         res.status(200).send('Users cleared')
