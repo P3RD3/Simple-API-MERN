@@ -2,9 +2,15 @@ const express = require('express');
 const app = express(); // add express module
 const PORT = 8080;
 const sequelize = require('./database')
+const mongoose = require('mongoose')
 const Users = require('./Users');
 const { where } = require('sequelize');
 module.exports = app 
+
+mongoose.connect("mongodb+srv://admin:admin@backenddb.9fvx27g.mongodb.net/?retryWrites=true&w=majority&appName=BackendDB")
+.then(() => {
+    
+})
 
 const allowedTokens = ['allowedtoken1','allowedtoken2'];
 
