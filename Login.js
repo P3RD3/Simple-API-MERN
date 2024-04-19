@@ -5,7 +5,6 @@ const sequelize = require('./database')
 const Users = require('./Users');
 const { where } = require('sequelize');
 
-
 login.use(express.json())
 
 login.post('/login', async (req,res) => {

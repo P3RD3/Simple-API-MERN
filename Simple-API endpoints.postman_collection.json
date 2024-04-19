@@ -73,7 +73,7 @@
 			"response": []
 		},
 		{
-			"name": "addItem",
+			"name": "addUser",
 			"request": {
 				"auth": {
 					"type": "noauth"
@@ -108,7 +108,7 @@
 			"response": []
 		},
 		{
-			"name": "getCart/:id",
+			"name": "Users/:id",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -134,26 +134,20 @@
 					}
 				},
 				"url": {
-					"raw": "{{Url}}/getCart/?id=1",
+					"raw": "{{Url}}/Users/2",
 					"host": [
 						"{{Url}}"
 					],
 					"path": [
-						"getCart",
-						""
-					],
-					"query": [
-						{
-							"key": "id",
-							"value": "1"
-						}
+						"Users",
+						"2"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "updateItem/:id",
+			"name": "updateUsername/:id",
 			"request": {
 				"auth": {
 					"type": "noauth"
@@ -176,12 +170,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{Url}}/updateItem/1",
+					"raw": "{{Url}}/updateUsername/1",
 					"host": [
 						"{{Url}}"
 					],
 					"path": [
-						"updateItem",
+						"updateUsername",
 						"1"
 					],
 					"query": [
@@ -196,7 +190,50 @@
 			"response": []
 		},
 		{
-			"name": "clearItem/:id",
+			"name": "updatePassword/:id",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "accesstoken",
+						"value": "allowedtoken1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"password\":\"test123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Url}}/updatePassword/1",
+					"host": [
+						"{{Url}}"
+					],
+					"path": [
+						"updatePassword",
+						"1"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "clearUsers/:id",
 			"request": {
 				"auth": {
 					"type": "noauth"
@@ -219,12 +256,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{Url}}/clearItem/2",
+					"raw": "{{Url}}/clearUsers/2",
 					"host": [
 						"{{Url}}"
 					],
 					"path": [
-						"clearItem",
+						"clearUsers",
 						"2"
 					],
 					"query": [
@@ -239,7 +276,7 @@
 			"response": []
 		},
 		{
-			"name": "clearCart",
+			"name": "clearUsers",
 			"request": {
 				"auth": {
 					"type": "noauth"
@@ -281,7 +318,7 @@
 			"response": []
 		},
 		{
-			"name": "getCart",
+			"name": "getUsers",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -307,12 +344,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{Url}}/getCart",
+					"raw": "{{Url}}/users",
 					"host": [
 						"{{Url}}"
 					],
 					"path": [
-						"getCart"
+						"users"
 					]
 				}
 			},
