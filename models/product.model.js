@@ -1,6 +1,4 @@
-const { privateDecrypt } = require('crypto');
 const mongoose = require('mongoose');
-const { type } = require('os');
 
 const ProductSchema = mongoose.Schema(
     {
