@@ -4,12 +4,11 @@ const PORT = 8080;
 const sequelize = require('./database')
 const mongoose = require('mongoose')
 const Users = require('./Users');
-const { where } = require('sequelize');
 module.exports = app 
 
-mongoose.connect("mongodb+srv://admin:admin@backenddb.9fvx27g.mongodb.net/?retryWrites=true&w=majority&appName=BackendDB")
+mongoose.connect("mongodb+srv://admin:admin@backenddb.9fvx27g.mongodb.net/")
 .then(() => {
-    
+    console.log("Connected to Mongo-db")
 })
 
 const allowedTokens = ['allowedtoken1','allowedtoken2'];
@@ -20,9 +19,6 @@ const checkAccessToken = (req, res, next) => {
         return res.status(401).json({ error: 'Access token is missing or invalid' })}
 next()
 }
-
-
-sequelize.sync().then(() => console.log('db is ready'))
 
 app.listen(
     PORT,
