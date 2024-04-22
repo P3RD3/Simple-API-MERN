@@ -1,18 +1,21 @@
+require('dotenv').config(); 
 const express = require("express");
 const app = express();
-const PORT = 8080;
 const mongoose = require("mongoose");
-const Product = require("./models/product.model.js");
+const Product = require("./models/user.model.js");
 const { error } = require("console");
-const productRoute = require("./routes/product.route.js");
+const productRoute = require("./routes/user.route.js");
+
+const MONGODB_URL = `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@sitedb.rcgg5n9.mongodb.net`;
+
 
 mongoose
-  .connect("mongodb+srv://admin:admin@backenddb.9fvx27g.mongodb.net/")
+  .connect(`${MONGODB_URL}`)
   .then(() => {
     console.log("Connected to Mongo-db");
   });
 
-app.listen(PORT, () => console.log(`It's alive on http://localhost:${PORT}`));
+app.listen(process.env.PORT, () => console.log(`It's alive on http://localhost:${process.env.PORT}`));
 
 app.use(express.json());
 app.use("/api/products", productRoute);

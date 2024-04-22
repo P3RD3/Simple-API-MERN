@@ -1,5 +1,5 @@
 const express = require("express");
-const Product = require("../models/product.model.js");
+const Product = require("../models/user.model.js");
 
 const pingProducts = (req, res) => {
   res.status(200).json({ message: "Ping!" });
