@@ -1,69 +1,91 @@
 const express = require("express");
-const Product = require("../models/user.model.js");
+const Users = require("../models/user.model.js");
 
-const pingProducts = (req, res) => {
+const pingUsers = (req, res) => {
   res.status(200).json({ message: "Ping!" });
 };
-const getProducts = async (req, res) => {
+const getUsers = async (req, res) => {
   try {
-    const products = await Product.find({});
-    res.status(200).json(products);
+    const users = await Users.find({});
+    res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-const getProduct = async (req, res) => {
+const getUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const products = await Product.findById(id);
-    res.status(200).json(products);
+    const users = await Users.findById(id);
+    res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-const createProduct = async (req, res) => {
+const createUser = async (req, res) => {
   try {
-    const product = await Product.create(req.body);
-    res.status(200).json(product);
+    const users = await Users.create(req.body);
+    res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-const updateProduct = async (req, res) => {
+const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const product = await Product.findByIdAndUpdate(id, req.body);
+    const users = await Users.findByIdAndUpdate(id, req.body);
 
-    if (!product) {
-      return res.status(404).json({ nessage: "Product not found" });
+    if (!users) {
+      return res.status(404).json({ nessage: "Users not found" });
     }
 
-    const updateProduct = await Product.findById(id);
-    res.status(200).json(updateProduct);
+    const updateUser = await Users.findById(id);
+    res.status(200).json(updateUser);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-const deleteProduct = async (req, res) => {
+const deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const product = await Product.findByIdAndDelete(id);
+    const user = await Users.findByIdAndDelete(id);
 
-    res.status(200).json({ message: "Product deleted successfully!" });
+    res.status(200).json({ message: "Users deleted successfully!" });
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+};
+
+const loginUser = async (req, res) => {
+  try {
+    const { providedUsername, providedPassword } = req.body;
+    const user = await Users.findOne({ username: providedUsername });
+
+    if (!user) {
+      return res.status(404).json({ message: "No such user found" });
+    }
+
+    const passwordMatch = await bcrypt.compare(providedPassword, user.password);
+
+    if (passwordMatch) {
+      return res.status(200).json({ message: "User logged-in" });
+    } else {
+      return res.status(401).json({ message: "Invalid password" });
+    }
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
   }
 };
 
 module.exports = {
-  getProducts,
-  getProduct,
-  createProduct,
-  updateProduct,
-  deleteProduct,
-  pingProducts,
+  getUsers,
+  getUser,
+  createUser,
+  updateUser,
+  deleteUser,
+  pingUsers,
+  loginUser,
 };

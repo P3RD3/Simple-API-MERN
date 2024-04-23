@@ -1,26 +1,28 @@
 const express = require("express");
-const Product = require("../models/user.model.js");
 const router = express.Router();
 const {
-  getProducts,
-  getProduct,
-  createProduct,
-  updateProduct,
-  deleteProduct,
-  pingProducts,
+  getUsers,
+  getUser,
+  createUser,
+  updateUser,
+  deleteUser,
+  pingUsers,
+  loginUser,
 
 } = require("../controllers/user.controller.js");
 
-router.get("/", getProducts);
+router.get("/users", getUsers);
 
-router.get("/:id", getProduct);
+router.get("/:id", getUser);
 
-router.post("/createProduct", createProduct);
+router.post("/createUser", createUser);
 
-router.put("/:id", updateProduct);
+router.put("/:id", updateUser);
 
-router.delete("/:id", deleteProduct);
+router.delete("/:id", deleteUser);
 
-router.get("/api/ping", pingProducts);
+router.get("/", pingUsers);
+
+router.post("/login", loginUser);
 
 module.exports = router;
