@@ -61,16 +61,19 @@ const deleteUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
   try {
-    const { providedUsername, providedPassword } = req.body;
-    const user = await Users.findOne({ username: providedUsername });
+    const providedUsername = req.body.username;
+    const providedPassword = req.body.password;
 
+    if (!providedPassword || !providedUsername) {
+      res.status(400).json({ message: "Username/Password cannot be empty" });
+    }
+
+    const user = await Users.findOne({ username: `${providedUsername}` });
     if (!user) {
       return res.status(404).json({ message: "No such user found" });
     }
 
-    const passwordMatch = await bcrypt.compare(providedPassword, user.password);
-
-    if (passwordMatch) {
+    if (providedPassword === user.password) {
       return res.status(200).json({ message: "User logged-in" });
     } else {
       return res.status(401).json({ message: "Invalid password" });
