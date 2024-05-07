@@ -1,18 +1,16 @@
-import './App.css';
-import LoginForm from './Components/LoginForm/LoginForm.jsx';
-import videoBg from "../src/Components/Assets/Ekko.mp4";
+import LoginForm from './pages/Login-Page/Login.js';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
-    <div className="video-background">
-    <video autoPlay muted loop className="video" >
-      <source src={videoBg} type="video/mp4" />
-    </video>
-    <div className="content">
-      <LoginForm />
-    </div>
+  <div>
+    <BrowserRouter>
+    <Routes>
+      <Route index element={<LoginForm />} />
+    </Routes>
+    </BrowserRouter>
   </div>
-);
+  );
 }
 
 export default App;

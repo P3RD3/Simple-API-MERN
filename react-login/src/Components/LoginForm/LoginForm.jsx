@@ -1,8 +1,6 @@
-import react from 'react';
 import './LoginForm.css';
 import { FaUser } from "react-icons/fa";
 import { FaLock } from "react-icons/fa6";
-import videoBg from "../Assets/Ekko.mp4";
 
 
 const LoginForm = () => {
