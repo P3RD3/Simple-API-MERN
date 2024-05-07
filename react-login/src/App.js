@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import LoginForm from './Components/LoginForm/LoginForm.jsx';
 import videoBg from "../src/Components/Assets/Ekko.mp4";
