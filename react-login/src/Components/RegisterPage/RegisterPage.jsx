@@ -9,7 +9,7 @@ const RegisterPage = () => {
             <form onSubmit=''>
                 <h1>Register</h1>
                 <div className='input-box'>
-                    <input type="text" placeholder='Email' required>
+                    <input type="email" placeholder='Email' required>
                     </input>
                 </div>
                 <div className='input-box'>
