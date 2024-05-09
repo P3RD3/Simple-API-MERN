@@ -6,7 +6,7 @@ const ForgotPassword = () => {
     return(
         <div className='wrapper'>
             <form onSubmit=''>
-                <h1>Passsword Recovery</h1>
+                <h1>Password Recovery</h1>
                 <div className='input-box'>
                     <input type="text" placeholder='Email' required>
                     </input>
