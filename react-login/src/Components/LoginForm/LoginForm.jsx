@@ -32,11 +32,13 @@ return(
         <>
         {success ?(
             <section>
+                <div className='wrapper'>
                 <h1>You are logged in!</h1>
                 <br />
                 <p>
                     <a href='/'> Go to Home</a>
                 </p>
+                </div>
             </section>
         ):(
         <section>
