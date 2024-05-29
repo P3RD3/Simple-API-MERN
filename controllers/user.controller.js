@@ -65,7 +65,7 @@ const loginUser = async (req, res) => {
     const providedPassword = req.body.password;
 
     if (!providedPassword || !providedUsername) {
-      res.status(400).json({ message: "Username/Password cannot be empty" });
+      return res.status(400).json({ message: "Username/Password cannot be empty" });
     }
 
     const user = await Users.findOne({ username: `${providedUsername}` });

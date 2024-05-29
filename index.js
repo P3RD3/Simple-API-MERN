@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const Product = require("./models/user.model.js");
 const { error } = require("console");
 const productRoute = require("./routes/user.route.js");
+const cors = require('cors');
 
 mongoose
   .connect("mongodb+srv://admin:hqA1yslCMQzkAHDs@sitedb.rcgg5n9.mongodb.net/")
@@ -14,4 +15,10 @@ mongoose
 app.listen( 8080, () => console.log(`It's alive on http://localhost:8080`));
 
 app.use(express.json());
+app.use(cors({
+  origin: 'http://localhost:3000', // Replace with your frontend URL
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  allowedHeaders: 'Content-Type,Authorization,accesstoken',
+  credentials: true // If you need to handle cookies
+}));
 app.use("/api", productRoute);

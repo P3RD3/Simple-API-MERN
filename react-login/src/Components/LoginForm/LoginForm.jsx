@@ -2,6 +2,7 @@ import './LoginForm.css';
 import { FaUser } from "react-icons/fa";
 import { FaLock } from "react-icons/fa6";
 import React, { useRef, useState, useEffect} from 'react';
+import { login } from "../API requests/login.js";
 
 
 function LoginForm(){
@@ -12,6 +13,7 @@ function LoginForm(){
     const [pwd, setPwd] = useState('');
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
+    const [error, setError] = useState(null);
 
     useEffect(()=>{
         userRef.current.focus();
@@ -23,10 +25,13 @@ function LoginForm(){
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(user,pwd);
-        setUser('');
-        setPwd('');
-        setSuccess(true);
-    }
+       try{
+        const result = await login(user,pwd);
+        console.log('Login successful:', result);
+       } catch (error){
+        setError('Login failed. Please try again later', error);
+       }
+    };
 
 return(
         <>
