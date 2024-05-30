@@ -36,10 +36,6 @@ function LoginForm(){
 
 return(
         <>
-        {success ?(
-            <section>
-            </section>
-        ):(
         <section>
                 <div className='wrapper'>
                     <form onSubmit={handleSubmit}>
@@ -80,7 +76,6 @@ return(
                     </form>
                 </div>
             </section>
-        )}
     </>
 )};
 
