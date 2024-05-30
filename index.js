@@ -1,7 +1,6 @@
- const express = require("express");
+const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const Product = require("./models/user.model.js");
 const { error } = require("console");
 const productRoute = require("./routes/user.route.js");
 const cors = require('cors');
