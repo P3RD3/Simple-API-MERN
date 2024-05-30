@@ -28,6 +28,7 @@ function LoginForm(){
        try{
         const result = await login(user,pwd);
         console.log('Login successful:', result);
+        setSuccess(true);
        } catch (error){
         setError('Login failed. Please try again later', error);
        }
