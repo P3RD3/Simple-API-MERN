@@ -16,7 +16,7 @@ const loginUser = async (req, res) => {
       }
   
       if (providedPassword === user.password) {
-        return res.status(200).json({ message: "User logged-in" });
+        return res.redirect('/welcome');
       } else {
         return res.status(401).json({ message: "Invalid password" });
       }
