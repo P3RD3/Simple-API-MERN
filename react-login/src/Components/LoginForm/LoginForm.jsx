@@ -1,11 +1,10 @@
 import './LoginForm.css';
 import { FaUser } from "react-icons/fa";
 import { FaLock } from "react-icons/fa6";
-import React, { useRef, useState, useEffect} from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { login } from "../API requests/login.js";
 
-
-function LoginForm(){
+function LoginForm() {
     const userRef = useRef();
     const errRef = useRef();
 
@@ -13,56 +12,78 @@ function LoginForm(){
     const [pwd, setPwd] = useState('');
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
-    const [error, setError] = useState(null);
 
-    useEffect(()=>{
+    useEffect(() => {
         userRef.current.focus();
-    },[])
-    useEffect(()=>{
+    }, []);
+
+    useEffect(() => {
         setErrMsg('');
-    },[user, pwd])
+    }, [user, pwd]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(user,pwd);
-       try{
-        const result = await login(user,pwd);
-        console.log('Login successful:', result);
-        setSuccess(true);
-       } catch (error){
-        setError('Login failed. Please try again later', error);
-       }
+        console.log(user, pwd);
+    
+        try {
+            const result = await login(user, pwd);
+    
+            if (result.success) {
+                if (result.redirectUrl) {
+                    window.location.href = result.redirectUrl;
+                } else {
+                    setSuccess(true);
+                }
+            }
+        } catch (error) {
+            // Log the specific error message to the console
+            console.log(error.message);
+    
+            // Optionally set a generic error message for the user
+            if (error.message === 'Invalid credentials') {
+                setErrMsg('Invalid credentials. Please check your username and password.');
+            } else {
+                setErrMsg('An unexpected error occurred. Please try again later.');
+            }
+        }
     };
+    
 
-return(
+    return (
         <>
-        <section>
+            <section>
                 <div className='wrapper'>
                     <form onSubmit={handleSubmit}>
                         <h1>Login</h1>
+                        {/* Error message */}
+                        {errMsg && (
+                            <div ref={errRef} className="error-msg" aria-live="assertive">
+                                {errMsg}
+                            </div>
+                        )}
                         <div className='input-box'>
                             <input 
-                            type="text" 
-                            placeholder='Username'
-                            id='username'
-                            required 
-                            ref={userRef} 
-                            autoComplete='off' 
-                            autoCapitalize='off'
-                            onChange={(e) => setUser(e.target.value)}
-                            value={user}
-                            ></input>
+                                type="text" 
+                                placeholder='Username'
+                                id='username'
+                                required 
+                                ref={userRef} 
+                                autoComplete='off' 
+                                autoCapitalize='off'
+                                onChange={(e) => setUser(e.target.value)}
+                                value={user}
+                            />
                             <FaUser className='icon' />
                         </div>
                         <div className='input-box'>
                             <input 
-                            type="password"
-                            id='password'
-                            placeholder='Password' 
-                            required
-                            onChange={(e) => setPwd(e.target.value)}
-                            value={pwd}
-                            ></input>
+                                type="password"
+                                id='password'
+                                placeholder='Password' 
+                                required
+                                onChange={(e) => setPwd(e.target.value)}
+                                value={pwd}
+                            />
                             <FaLock className='icon' />
                         </div>
                         <div className='remember-forgot'>
@@ -76,7 +97,8 @@ return(
                     </form>
                 </div>
             </section>
-    </>
-)};
+        </>
+    );
+}
 
 export default LoginForm;

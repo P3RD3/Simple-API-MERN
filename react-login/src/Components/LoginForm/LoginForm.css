@@ -97,3 +97,14 @@
 .register-link p a:hover {
     text-decoration: underline;
 }
+
+.error-msg {
+    color: #ff4d4d; /* Red color for the error message */
+    background-color: transparent;
+    border: 1px solid #ff4d4d;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+    text-align: center;
+    font-size: 14px;
+}
